@@ -13,3 +13,7 @@ Each member contributions is based on the number of other users that he has tran
 *Zero Balance* - the member has given the same amount of lifts that he took.
 
 *Negative Balance* - the member has hitchhiked more  than the rides he gave. (.... shame on you :) )
+
+## Installation
+
+## Usage
