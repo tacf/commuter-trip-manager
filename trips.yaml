@@ -1,0 +1,15 @@
+trips:
+  - date: 2018-01-01
+    driver: John
+    passengers:
+      - Eduard
+      - Albert
+  - date: 2018-01-02
+    driver: Eduard
+    passengers:
+      - Albert
+  - date: 2018-01-03
+    driver: Albert
+    passengers:
+      - Eduard
+      - John
