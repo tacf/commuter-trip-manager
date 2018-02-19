@@ -15,9 +15,9 @@ from logzero import logger
 
 def print_balances(balances):
     logger.info("Listing Balances")
-    print "{:<15} {:<0}".format('User', 'Balance')
+    print u"{:<15} {:<0}".format('User', 'Balance')
     for user, amount in balances.iteritems():
-        print "{:<15} {:>3}".format(user, amount)
+        print u"{:<15} {:>3}".format(user, amount)
 
 def update_balance(balances, transactions):
     for user in transactions:
@@ -54,8 +54,8 @@ if __name__ == "__main__":
     PARSER = argparse.ArgumentParser()
 
     PARSER.add_argument("operation", help="Specify operation [balances]")
-    PARSER.add_argument("-f", "--filee", action="store",
-                        dest="name", help="Specify a diferent input file.")
+    PARSER.add_argument("-f", "--file", action="store",
+                        dest="file", help="Specify a diferent input file.")
 
     # Specify output of "--version"
     PARSER.add_argument(
