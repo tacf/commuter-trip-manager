@@ -23,7 +23,7 @@ def update_balance(balances, transactions):
     for user in transactions:
         balances[user] = transactions[user] + (balances[user] if (user in balances) else 0)
 
-def list_balances(db):
+def list_balances(args, db):
     balances = dict()
     for trip in db['trips']:
         drv, n_passengers = trip['driver'], len(trip['passengers'])
@@ -31,19 +31,24 @@ def list_balances(db):
         update_balance(balances, {passenger: -1 for passenger in trip['passengers']})
     print_balances(balances)
 
+def list_transactions(args, db):
+    print("Transactions")
 
-def cmder(cmd, db):
+
+def get_cmd(op):
     return {
-        'balances': list_balances(db)
-    }[cmd.lower()]
+        'balances': list_balances,
+        'transactions': list_transactions
+    }[op.lower()]
 
 
 def main(args):
     """ Main entry point of the app """
-    with open(args.file if 'file' in args else "trips.yaml", 'r') as stream:
+    with open(args.file if args.file != None else 'trips.yaml', 'r') as stream:
         try:
             db = yaml.load(stream)
-            cmder(args.operation, db)
+            cmd = get_cmd(args.operation)
+            cmd(args, db)
         except yaml.YAMLError as exc:
             logger.erro(exc)
         except KeyError:
@@ -53,15 +58,19 @@ def main(args):
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser()
 
-    PARSER.add_argument("operation", help="Specify operation [balances]")
+    SUBPARSER = PARSER.add_subparsers(dest="operation", help="Specify operation [balances, transactions]")
     PARSER.add_argument("-f", "--file", action="store",
                         dest="file", help="Specify a diferent input file.")
+    BALANCES_PARSER = SUBPARSER.add_parser('balances')
+    TRANSACTIONS_PARSER = SUBPARSER.add_parser('transactions')
+    TRANSACTIONS_PARSER.add_argument('user', help='User to list transactions')
+    
 
     # Specify output of "--version"
     PARSER.add_argument(
         "--version",
         action="version",
         version="%(prog)s (version {version})".format(version=__version__))
-
     ARGS = PARSER.parse_args()
+
     main(ARGS)
