@@ -32,7 +32,19 @@ def list_balances(args, db):
     print_balances(balances)
 
 def list_transactions(args, db):
-    print("Transactions")
+    logger.info("Listing Transactions for user: {0}".format(args.user))
+    for trip in db['trips']:
+        drv, n_passengers = trip['driver'], len(trip['passengers'])
+        balance = 0
+        if drv == args.user:
+            balance = str(n_passengers)
+        if args.user in trip['passengers']:
+            balance = '-1'
+        if balance != 0:
+            print u'{:^0}: {:^5}'.format(str(trip['date']), balance)
+            print u'{:>15} {:^0}'.format('Driver:', drv) 
+            print u'{:>15} {:^0}'.format('Passengers:', trip['passengers'])
+        
 
 
 def get_cmd(op):
