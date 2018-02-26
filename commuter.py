@@ -25,10 +25,15 @@ def update_balance(balances, transactions):
 
 def list_balances(args, db):
     balances = dict()
+    # Process trips
     for trip in db['trips']:
         drv, n_passengers = trip['driver'], len(trip['passengers'])
         update_balance(balances, {drv: n_passengers})
         update_balance(balances, {passenger: -1 for passenger in trip['passengers']})
+    #Process adjustments
+    for adjst in db['adjustments']:
+        update_balance(balances, {adjst['source']: -adjst['amount']})
+        update_balance(balances, {adjst['destination']: adjst['amount']})
     print_balances(balances)
 
 def list_transactions(args, db):

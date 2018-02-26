@@ -8,3 +8,12 @@ trips:
   - date: 2018-01-03
     driver: Albert
     passengers: [Eduard, John]
+adjustments:
+  - date: 2018-02-22
+    source: John
+    destination: Albert
+    amount: -1
+  - date: 2018-02-23
+    source: Eduard
+    destination: John
+    amount: 2
