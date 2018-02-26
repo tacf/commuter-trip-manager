@@ -12,12 +12,14 @@ import argparse
 import yaml
 
 from logzero import logger
+from tabulate import tabulate
 
 def print_balances(balances):
     logger.info("Listing Balances")
-    print u"{:<15} {:<0}".format('User', 'Balance')
+    balances_list = []
     for user, amount in balances.iteritems():
-        print u"{:<15} {:>3}".format(user, amount)
+        balances_list.append([user, amount])
+    print tabulate(balances_list, headers=['User', 'Balance'], numalign='center')
 
 def update_balance(balances, transactions):
     for user in transactions:
